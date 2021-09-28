@@ -2,9 +2,9 @@ import axios from "axios";
 
 export default {
   name: "Characters",
-  props: ["msg"],
   data: () => ({
     tableRows: [],
+    fav: [],
     listEpisodes: [],
     tableHeaders: [
       {
@@ -42,6 +42,12 @@ export default {
         align: "center",
         sortable: false,
         value: "episode",
+      },
+      {
+        text: "Add to favorites",
+        align: "center",
+        sortable: false,
+        value: "fav",
       },
     ],
     searchResultsOptions: {
@@ -84,6 +90,20 @@ export default {
       axios.get(episodes[episodes.length - 1]).then((response) => {
         this.listEpisodes.push(response.data.episode);
       });
+    },
+
+    change() {
+      this.tableRows = this.fav;
+    },
+
+    favor(index) {
+      this.fav.push(this.tableRows[index]);
+      console.log("this.fav", this.fav);
+    },
+
+    inFavor(index) {
+      console.log("this.fav", this.fav);
+      return this.fav.some((element) => element === this.tableRows[index]);
     },
 
     setCasesRowsContent(responseData) {

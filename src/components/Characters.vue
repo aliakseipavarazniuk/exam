@@ -1,6 +1,7 @@
 <template>
   <div id="rick">
     <h3>{{ searchResultsOptions }}</h3>
+    <v-btn @click="change()">CHANGE</v-btn>
     <v-data-table
       :items="tableRows"
       :headers="tableHeaders"
@@ -37,6 +38,11 @@
       </template>
       <template v-slot:item.episode="{ index }">
         {{ listEpisodes[index] }}
+      </template>
+      <template v-slot:item.fav="{ index }">
+        <v-btn :class="{ 'active-icon': inFavor(index) }" @click="favor(index)">
+          FAVORITE</v-btn
+        >
       </template>
     </v-data-table>
     <v-pagination

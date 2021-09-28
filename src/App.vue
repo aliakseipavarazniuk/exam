@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Characters msg="HOLALA" />
+    <Characters />
   </div>
 </template>
 
