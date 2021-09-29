@@ -1,4 +1,4 @@
-# exam
+# Rick and Morty
 
 ## Project setup
 ```
