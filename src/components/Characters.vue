@@ -1,9 +1,9 @@
 <template>
   <div id="rick">
-    <h3>{{ searchResultsOptions }}</h3>
-    <v-btn @click="change()">CHANGE</v-btn>
+    <v-btn @click="changeAll()">ALL</v-btn>
+    <v-btn @click="changeFav()">FAVORITE</v-btn>
     <v-data-table
-      :items="tableRows"
+      :items="items()"
       :headers="tableHeaders"
       :items-per-page="-1"
       :mobile-breakpoint="300"
@@ -39,13 +39,20 @@
       <template v-slot:item.episode="{ index }">
         {{ listEpisodes[index] }}
       </template>
-      <template v-slot:item.fav="{ index }">
-        <v-btn :class="{ 'active-icon': inFavor(index) }" @click="favor(index)">
+      <template v-slot:item.favorite="{ index }">
+        <v-btn
+          :class="{
+            'active-icon':
+              favoriteArr.includes(tableRows[index]) || mode === 'favorite',
+          }"
+          @click="favor(index)"
+        >
           FAVORITE</v-btn
         >
       </template>
     </v-data-table>
     <v-pagination
+      v-if="mode === 'all'"
       v-model="searchResultsOptions.page"
       class="pagination"
       :length="searchResultsPagesCount"

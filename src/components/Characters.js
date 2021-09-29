@@ -1,11 +1,13 @@
+// /* eslint-disable */
 import axios from "axios";
 
 export default {
   name: "Characters",
   data: () => ({
     tableRows: [],
-    fav: [],
+    favoriteArr: [],
     listEpisodes: [],
+    mode: "all",
     tableHeaders: [
       {
         text: "Photo",
@@ -47,11 +49,11 @@ export default {
         text: "Add to favorites",
         align: "center",
         sortable: false,
-        value: "fav",
+        value: "favorite",
       },
     ],
     searchResultsOptions: {
-      page: 1, // UWAGA: v-pagination liczy od 1
+      page: 1,
       itemsPerPage: 20,
     },
     searchResultsPagesCount: 0,
@@ -79,11 +81,14 @@ export default {
           },
         })
         .then((response) => {
-          console.log("response", response.data);
-          // eslint-disable-next-line
           this.tableRows = this.setCasesRowsContent(response.data.results);
           this.searchResultsPagesCount = response.data.info.pages;
         });
+    },
+
+    items() {
+      if (this.mode === "all") return this.tableRows;
+      if (this.mode === "favorite") return this.favoriteArr;
     },
 
     lastEpisode(episodes) {
@@ -92,18 +97,35 @@ export default {
       });
     },
 
-    change() {
-      this.tableRows = this.fav;
+    changeAll() {
+      this.mode = "all";
+    },
+
+    changeFav() {
+      this.mode = "favorite";
     },
 
     favor(index) {
-      this.fav.push(this.tableRows[index]);
-      console.log("this.fav", this.fav);
+      if (this.mode === "favorite") {
+        this.favoriteArr.splice(
+          this.favoriteArr.indexOf(this.favoriteArr[index]),
+          1
+        );
+        return;
+      }
+      if (this.favoriteArr.includes(this.tableRows[index])) {
+        this.favoriteArr.splice(
+          this.favoriteArr.indexOf(this.tableRows[index]),
+          1
+        );
+        return;
+      }
+      this.favoriteArr.push(this.tableRows[index]);
     },
 
     inFavor(index) {
-      console.log("this.fav", this.fav);
-      return this.fav.some((element) => element === this.tableRows[index]);
+      // return this.favoriteArr.some((element) => element === this.tableRows[index]);
+      return this.favoriteArr.includes(this.tableRows[index]);
     },
 
     setCasesRowsContent(responseData) {
