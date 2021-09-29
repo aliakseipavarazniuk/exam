@@ -1,27 +1,42 @@
 <template>
   <v-app>
     <div id="rick-and-morty">
-      {{ searchResultsOptions }}
       <div id="searchbox">
-        <img @click="reload()" width="240" src="../assets/logo.svg" />
-        <div v-if="mode === 'all'" class="filter-by ml-10">
+        <img
+          class="main-logo"
+          @click="reload()"
+          width="240"
+          src="../assets/logo.svg"
+        />
+        <div v-if="mode === 'all'" class="search-by ml-10">
+          <span class="text">Search By</span>
           <v-autocomplete
             v-model="filteredBy"
-            :items="murmur"
+            :items="itemsForFilter"
+            :menu-props="{ contentClass: 'filter-open' }"
             dense
             filled
           ></v-autocomplete>
           <v-text-field
             :value="bye"
-            @input="emitChange({ value: $event })"
+            class="input-search"
+            @input="inputSearch({ value: $event })"
           ></v-text-field>
-          <img @click="search()" width="24" src="../assets/search.svg" />
+          <img
+            class="search-icon"
+            @click="search()"
+            width="30"
+            src="../assets/search.svg"
+          />
         </div>
       </div>
-      bye {{ bye }} filteredBy {{ filteredBy }}
       <div id="choose-mode">
-        <v-btn @click="changeAll()">All charachters</v-btn>
-        <v-btn @click="changeFav()">Favorites</v-btn>
+        <div :class="{ active: mode === 'all' }" @click="changeAll()">
+          All characters
+        </div>
+        <div :class="{ active: mode === 'favorite' }" @click="changeFav()">
+          Favorites
+        </div>
       </div>
       <v-data-table
         :items="items()"

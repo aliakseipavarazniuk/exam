@@ -1,15 +1,87 @@
 #rick-and-morty::v-deep {
+    color: #A9B1BD;
+    font-weight: 300;
+
+    .main-logo {
+        cursor: pointer;
+        margin-right: 30px;
+    }
+
     #searchbox {
         display: flex;
         padding-left: 100px;
-        padding-bottom: 20px;
+        padding-bottom: 50px;
 
-        .filter-by {
+        .search-by {
             display: flex;
             align-self: center;
+            height: 56px;
+            border: 1px solid #A9B1BD;
+            border-radius: 12px;
+
+            .text {
+                padding: 15px 25px;
+
+            }
+
+            .v-input {
+                width: 150px;
+                cursor: pointer;
+                margin: 0;
+                padding: 0;
+
+                .v-input__append-inner {
+                    position: relative;
+                    top: 8px;
+
+                    .v-icon {
+                        color: #A9B1BD;
+                    }
+                }
+            }
+
+            .theme--light.v-text-field--filled>.v-input__control>.v-input__slot {
+                background-color: white;
+                height: 54px;
+                border-radius: 0;
+                padding-left: 25px;
+                border-left: 1px solid #A9B1BD;
+                border-right: 1px solid #A9B1BD;
+
+                input {
+                    color: #A9B1BD;
+                }
+            }
+
+            .v-text-field.v-input--is-focused>.v-input__control>.v-input__slot:after {
+                display: none;
+            }
+
+            .theme--light.v-text-field>.v-input__control>.v-input__slot:before {
+                border: none;
+            }
 
             .v-text-field__details {
                 display: none;
+            }
+
+            .input-search {
+                width: 225px;
+                padding-left: 25px;
+
+                .v-input__slot {
+                    height: 56px;
+                    margin: 0;
+                }
+
+                .v-text-field__slot input {
+                    color: #A9B1BD;
+                }
+            }
+
+            .search-icon {
+                cursor: pointer;
+                margin-right: 10px;
             }
         }
     }
@@ -23,7 +95,19 @@
     }
 
     #choose-mode {
-        border-top: 1px solid red;
-        padding: 20px;
+        display: flex;
+        border-top: 1px solid #A9B1BD;
+        padding: 30px 20px 20px 100px;
+        
+        div {
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 50px;
+
+            &.active {
+                color: #11B0C8;
+                border-bottom: 3px solid #11B0C8;
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ export default {
     mode: "all",
     bye: "",
     filteredBy: "Name",
-    murmur: ["Name", "Gender", "Species"],
+    itemsForFilter: ["Name", "Gender", "Species"],
     tableHeaders: [
       {
         text: "Photo",
@@ -91,7 +91,7 @@ export default {
         });
     },
 
-    emitChange(event) {
+    inputSearch(event) {
       this.bye = event.value;
     },
 
