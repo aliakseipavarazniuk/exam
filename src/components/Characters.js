@@ -8,6 +8,9 @@ export default {
     favoriteArr: [],
     listEpisodes: [],
     mode: "all",
+    bye: "",
+    filteredBy: "Name",
+    murmur: ["Name", "Gender", "Species"],
     tableHeaders: [
       {
         text: "Photo",
@@ -56,6 +59,9 @@ export default {
       page: 1,
       itemsPerPage: 20,
     },
+    params: {
+      page: 1,
+    },
     searchResultsPagesCount: 0,
     searchResultsVisiblePaginationItems: 6,
   }),
@@ -64,26 +70,44 @@ export default {
       deep: true,
 
       handler(newVal) {
-        this.getCh(newVal.page);
+        this.params.page = newVal.page;
         this.listEpisodes = [];
+        this.getCh();
       },
     },
   },
   created() {
-    this.getCh("1");
+    this.getCh();
   },
   methods: {
-    getCh(currentPage) {
+    getCh() {
       return axios
         .get("https://rickandmortyapi.com/api/character", {
-          params: {
-            page: currentPage,
-          },
+          params: this.params,
         })
         .then((response) => {
           this.tableRows = this.setCasesRowsContent(response.data.results);
           this.searchResultsPagesCount = response.data.info.pages;
         });
+    },
+
+    emitChange(event) {
+      this.bye = event.value;
+    },
+
+    reload() {
+      this.searchResultsOptions.page = 1;
+      this.params = { page: 1 };
+      this.bye = "";
+      this.mode = "all";
+      this.getCh();
+    },
+
+    search() {
+      const key = this.filteredBy.toLowerCase();
+      this.params[key] = this.bye;
+      this.searchResultsOptions.page = 1;
+      this.getCh();
     },
 
     items() {
@@ -113,7 +137,11 @@ export default {
         );
         return;
       }
-      if (this.favoriteArr.includes(this.tableRows[index])) {
+      if (
+        this.favoriteArr.some(
+          (element) => element.id === this.tableRows[index].id
+        )
+      ) {
         this.favoriteArr.splice(
           this.favoriteArr.indexOf(this.tableRows[index]),
           1
