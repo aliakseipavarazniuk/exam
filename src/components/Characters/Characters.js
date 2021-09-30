@@ -1,4 +1,4 @@
-// /* eslint-disable */
+/* eslint-disable */
 import axios from "axios";
 import { tableHeaders } from "./_data.js";
 
