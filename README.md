@@ -31,4 +31,5 @@ Szukać per page nie widzę sensu.
 Też dodałem żeby click po głównemu logo dawał iniciałne dane, żeby było łatwo wrócić do pierwotnego stanu.
 
 Demo znajduje się tu - https://rick-and-morty-exe.netlify.app/
+
 Have fun.
