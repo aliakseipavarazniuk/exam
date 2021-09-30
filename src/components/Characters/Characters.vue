@@ -32,7 +32,7 @@
       </div>
       <div id="choose-mode">
         <div :class="{ active: mode === 'all' }" @click="changeMode('all')">
-          All characters
+          All Characters
         </div>
         <div
           :class="{ active: mode === 'favorite' }"

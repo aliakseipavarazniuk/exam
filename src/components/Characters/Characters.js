@@ -37,7 +37,12 @@ export default {
             this.asyncEpisode(element.episode, index)
           );
           this.searchResultsPagesCount = response.data.info.pages;
-        });
+        })
+        .catch((error) =>
+          alert(
+            `Masz następny błąd - ${error}. Wygląda na to, że tacy bohaterowie nie istnieją.`
+          )
+        );
     },
 
     async asyncEpisode(url, index) {
