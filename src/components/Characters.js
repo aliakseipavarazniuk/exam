@@ -6,7 +6,6 @@ export default {
   data: () => ({
     tableRows: [],
     favoriteArr: [],
-    listEpisodes: [],
     mode: "all",
     bye: "",
     filteredBy: "Name",
@@ -71,7 +70,6 @@ export default {
 
       handler(newVal) {
         this.params.page = newVal.page;
-        this.listEpisodes = [];
         this.getCh();
       },
     },
@@ -87,6 +85,9 @@ export default {
         })
         .then((response) => {
           this.tableRows = this.setCasesRowsContent(response.data.results);
+          this.tableRows.forEach((e, index) =>
+            this.asyncEpisode(e.episode, index)
+          );
           this.searchResultsPagesCount = response.data.info.pages;
         });
     },
@@ -115,10 +116,9 @@ export default {
       if (this.mode === "favorite") return this.favoriteArr;
     },
 
-    lastEpisode(episodes) {
-      axios.get(episodes[episodes.length - 1]).then((response) => {
-        this.listEpisodes.push(response.data.episode);
-      });
+    async asyncEpisode(url, index) {
+      const response = await axios.get(url);
+      this.tableRows[index].episode = response.data.episode;
     },
 
     changeAll() {
@@ -164,7 +164,7 @@ export default {
           id: apiObj.id,
           gender: apiObj.gender,
           species: apiObj.species,
-          episode: this.lastEpisode(apiObj.episode),
+          episode: apiObj.episode[apiObj.episode.length - 1],
         };
       });
     },

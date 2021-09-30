@@ -72,9 +72,7 @@
         <template v-slot:item.image="{ item }">
           <img width="68" :src="item.image" />
         </template>
-        <template v-slot:item.episode="{ index }">
-          {{ listEpisodes[index] }}
-        </template>
+
         <template v-slot:item.favorite="{ index }">
           <v-btn
             :class="{
