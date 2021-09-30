@@ -38,11 +38,12 @@ export default {
           );
           this.searchResultsPagesCount = response.data.info.pages;
         })
-        .catch((error) =>
+        .catch((error) => {
+          this.reload();
           alert(
             `Masz następny błąd - ${error}. Wygląda na to, że tacy bohaterowie nie istnieją.`
-          )
-        );
+          );
+        });
     },
 
     async asyncEpisode(url, index) {
