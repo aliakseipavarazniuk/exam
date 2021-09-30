@@ -25,7 +25,11 @@ export default class App extends Vue {}
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 30px;
+
+  @media (max-width: 1000px) {
+    margin-top: 0;
+  }
 
   .filter-open {
     box-shadow: none;
@@ -40,6 +44,10 @@ export default class App extends Vue {}
         border-top: 1px solid #a9b1bd;
         text-align: start;
         padding: 5px 25px;
+
+        @media (max-width: 750px) {
+          padding: 5px 10px;
+        }
 
         .v-list-item__title {
           font-size: 16px;

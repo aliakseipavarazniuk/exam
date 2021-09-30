@@ -1,59 +1,17 @@
 /* eslint-disable */
 import axios from "axios";
+import { tableHeaders } from './_data.js'
 
 export default {
   name: "Characters",
   data: () => ({
     tableRows: [],
     favoriteArr: [],
+    tableHeaders: tableHeaders,
     mode: "all",
     inputValue: "",
     filteredBy: "Name",
     itemsForFiltering: ["Name", "Gender", "Species"],
-    tableHeaders: [
-      {
-        text: "Photo",
-        align: "center",
-        sortable: false,
-        value: "image",
-      },
-      {
-        text: "Character ID",
-        align: "center",
-        sortable: false,
-        value: "id",
-      },
-      {
-        text: "Name",
-        align: "center",
-        sortable: false,
-        value: "name",
-      },
-      {
-        text: "Gender",
-        align: "center",
-        sortable: false,
-        value: "gender",
-      },
-      {
-        text: "Species",
-        align: "center",
-        sortable: false,
-        value: "species",
-      },
-      {
-        text: "Last episode",
-        align: "center",
-        sortable: false,
-        value: "episodeVue",
-      },
-      {
-        text: "Add to favorites",
-        align: "center",
-        sortable: false,
-        value: "favorite",
-      },
-    ],
     searchResultsOptions: {
       page: 1,
       itemsPerPage: 20,
@@ -91,11 +49,26 @@ export default {
           this.searchResultsPagesCount = response.data.info.pages;
         });
     },
-
-    inputSearch(event) {
-      this.inputValue = event.value;
+    
+    async asyncEpisode(url, index) {
+      const response = await axios.get(url);
+      this.tableRows[index].episodeView = response.data.episode;
     },
-
+    
+    setCasesRowsContent(responseData) {
+      return responseData.map((apiObj) => {
+        return {
+          name: apiObj.name,
+          image: apiObj.image,
+          id: apiObj.id,
+          gender: apiObj.gender,
+          species: apiObj.species,
+          episode: apiObj.episode[apiObj.episode.length - 1],
+          episodeView: "",
+        };
+      });
+    },
+    
     reload() {
       this.searchResultsOptions.page = 1;
       this.params = {
@@ -105,12 +78,23 @@ export default {
       this.mode = "all";
       this.getCharacters();
     },
-
-    search() {
+    
+    searchByFilter() {
       const key = this.filteredBy.toLowerCase();
       this.params[key] = this.inputValue;
       this.searchResultsOptions.page = 1;
       this.getCharacters();
+    },
+
+    sourceImg(gender) {
+      if (gender === 'Female') return require('@/assets/female.svg')
+      if (gender === 'Male') return require('@/assets/male.svg')
+      if (gender === 'unknown') return require('@/assets/remove.svg')
+      if (gender === 'Genderless') return require('@/assets/close.svg')
+    },
+
+    inputSearch(event) {
+      this.inputValue = event.value;
     },
 
     items() {
@@ -118,20 +102,11 @@ export default {
       if (this.mode === "favorite") return this.favoriteArr;
     },
 
-    async asyncEpisode(url, index) {
-      const response = await axios.get(url);
-      this.tableRows[index].episodeVue = response.data.episode;
+    changeMode(mode) {
+      this.mode = mode;
     },
 
-    changeAll() {
-      this.mode = "all";
-    },
-
-    changeFav() {
-      this.mode = "favorite";
-    },
-
-    favor(index) {
+    favoriteAction(index) {
       if (this.mode === "favorite") {
         this.favoriteArr.splice(
           this.favoriteArr.indexOf(this.favoriteArr[index]),
@@ -152,20 +127,6 @@ export default {
         return;
       }
       this.favoriteArr.push(this.tableRows[index]);
-    },
-
-    setCasesRowsContent(responseData) {
-      return responseData.map((apiObj) => {
-        return {
-          name: apiObj.name,
-          image: apiObj.image,
-          id: apiObj.id,
-          gender: apiObj.gender,
-          species: apiObj.species,
-          episode: apiObj.episode[apiObj.episode.length - 1],
-          episodeVue: "",
-        };
-      });
-    },
+    }
   },
 };
