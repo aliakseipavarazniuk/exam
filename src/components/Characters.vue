@@ -12,13 +12,13 @@
           <span class="text">Search By</span>
           <v-autocomplete
             v-model="filteredBy"
-            :items="itemsForFilter"
+            :items="itemsForFiltering"
             :menu-props="{ contentClass: 'filter-open' }"
             dense
             filled
           ></v-autocomplete>
           <v-text-field
-            :value="bye"
+            :value="inputValue"
             class="input-search"
             @input="inputSearch({ value: $event })"
           ></v-text-field>

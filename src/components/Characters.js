@@ -1,4 +1,4 @@
-// /* eslint-disable */
+/* eslint-disable */
 import axios from "axios";
 
 export default {
@@ -7,9 +7,9 @@ export default {
     tableRows: [],
     favoriteArr: [],
     mode: "all",
-    bye: "",
+    inputValue: "",
     filteredBy: "Name",
-    itemsForFilter: ["Name", "Gender", "Species"],
+    itemsForFiltering: ["Name", "Gender", "Species"],
     tableHeaders: [
       {
         text: "Photo",
@@ -45,7 +45,7 @@ export default {
         text: "Last episode",
         align: "center",
         sortable: false,
-        value: "episode",
+        value: "episodeVue",
       },
       {
         text: "Add to favorites",
@@ -70,45 +70,47 @@ export default {
 
       handler(newVal) {
         this.params.page = newVal.page;
-        this.getCh();
+        this.getCharacters();
       },
     },
   },
   created() {
-    this.getCh();
+    this.getCharacters();
   },
   methods: {
-    getCh() {
+    getCharacters() {
       return axios
         .get("https://rickandmortyapi.com/api/character", {
           params: this.params,
         })
         .then((response) => {
           this.tableRows = this.setCasesRowsContent(response.data.results);
-          this.tableRows.forEach((e, index) =>
-            this.asyncEpisode(e.episode, index)
+          this.tableRows.forEach((element, index) =>
+            this.asyncEpisode(element.episode, index)
           );
           this.searchResultsPagesCount = response.data.info.pages;
         });
     },
 
     inputSearch(event) {
-      this.bye = event.value;
+      this.inputValue = event.value;
     },
 
     reload() {
       this.searchResultsOptions.page = 1;
-      this.params = { page: 1 };
-      this.bye = "";
+      this.params = {
+        page: 1,
+      };
+      this.inputValue = "";
       this.mode = "all";
-      this.getCh();
+      this.getCharacters();
     },
 
     search() {
       const key = this.filteredBy.toLowerCase();
-      this.params[key] = this.bye;
+      this.params[key] = this.inputValue;
       this.searchResultsOptions.page = 1;
-      this.getCh();
+      this.getCharacters();
     },
 
     items() {
@@ -118,7 +120,7 @@ export default {
 
     async asyncEpisode(url, index) {
       const response = await axios.get(url);
-      this.tableRows[index].episode = response.data.episode;
+      this.tableRows[index].episodeVue = response.data.episode;
     },
 
     changeAll() {
@@ -138,6 +140,7 @@ export default {
         return;
       }
       if (
+        this.mode === "all" &&
         this.favoriteArr.some(
           (element) => element.id === this.tableRows[index].id
         )
@@ -151,11 +154,6 @@ export default {
       this.favoriteArr.push(this.tableRows[index]);
     },
 
-    inFavor(index) {
-      // return this.favoriteArr.some((element) => element === this.tableRows[index]);
-      return this.favoriteArr.includes(this.tableRows[index]);
-    },
-
     setCasesRowsContent(responseData) {
       return responseData.map((apiObj) => {
         return {
@@ -165,6 +163,7 @@ export default {
           gender: apiObj.gender,
           species: apiObj.species,
           episode: apiObj.episode[apiObj.episode.length - 1],
+          episodeVue: "",
         };
       });
     },
