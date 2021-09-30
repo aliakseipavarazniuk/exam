@@ -36,13 +36,13 @@ export const tableHeaders = [
     value: "species",
   },
   {
-    text: "Last episode",
+    text: "Last Episode",
     align: "start",
     sortable: false,
     value: "episodeView",
   },
   {
-    text: "Add to favorites",
+    text: "Add To Favorites",
     align: "start",
     sortable: false,
     value: "favorite",

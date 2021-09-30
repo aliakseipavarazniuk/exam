@@ -1,4 +1,4 @@
-/* eslint-disable */
+// /* eslint-disable */
 import axios from "axios";
 import { tableHeaders } from "./_data.js";
 
@@ -22,16 +22,6 @@ export default {
     searchResultsPagesCount: 0,
     searchResultsVisiblePaginationItems: 6,
   }),
-  watch: {
-    searchResultsOptions: {
-      deep: true,
-
-      handler(newVal) {
-        this.params.page = newVal.page;
-        this.getCharacters();
-      },
-    },
-  },
   created() {
     this.getCharacters();
   },
@@ -69,6 +59,11 @@ export default {
       });
     },
 
+    inputPagination(event) {
+      this.params.page = event;
+      this.getCharacters();
+    },
+
     reload() {
       this.searchResultsOptions.page = 1;
       this.params = {
@@ -81,6 +76,7 @@ export default {
 
     searchByFilter() {
       const key = this.filteredBy.toLowerCase();
+      this.params = {};
       this.params[key] = this.inputValue;
       this.searchResultsOptions.page = 1;
       this.getCharacters();
