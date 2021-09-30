@@ -95,7 +95,11 @@ export default {
     },
 
     inputSearch(event) {
-      this.inputValue = event.value;
+      this.inputValue = event;
+    },
+
+    inputKey(event) {
+      if (event.key === "Enter") this.searchByFilter();
     },
 
     items() {

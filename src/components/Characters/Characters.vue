@@ -20,7 +20,8 @@
           <v-text-field
             :value="inputValue"
             class="input-search"
-            @input="inputSearch({ value: $event })"
+            @keydown="inputKey"
+            @input="inputSearch"
           ></v-text-field>
           <img
             class="search-icon"
