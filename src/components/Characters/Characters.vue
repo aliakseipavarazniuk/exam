@@ -9,7 +9,7 @@
           src="../../assets/logo.svg"
         />
         <div v-if="mode === 'all'" class="search-by ml-10">
-          <span class="text">Search by</span>
+          <span class="text">Search by:::</span>
           <v-autocomplete
             v-model="filteredBy"
             :items="itemsForFiltering"
